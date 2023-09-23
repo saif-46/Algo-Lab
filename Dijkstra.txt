@@ -1,0 +1,56 @@
+#include<bits/stdc++.h>
+using    namespace std;
+#define MX 1e9
+int main()
+{
+    int n,e,u,v,w;
+    cin>>n>>e;
+
+    vector<vector<pair<int,int>>>vec(n+1);
+    vector<int>dis(n+1,MX);
+    for(int i=0;i<e;i++)
+    {
+        cin>>u>>v>>w;
+        vec[u].push_back(make_pair(v,w));
+        vec[v].push_back(make_pair(u,w));
+    }
+    int source;cin>>source;
+    dis[source]=0;
+    set<pair<int,int>>st;
+
+    //weight, node
+   st.insert(make_pair(0,source));
+   while(!st.empty())
+   {
+       auto top=*(st.begin());
+
+       st.erase(top);
+       for(auto neighbour:vec[top.second])
+       {
+           if(top.first+neighbour.second<dis[neighbour.first])
+           {
+               auto ff=st.find(make_pair(dis[neighbour.first],neighbour.first));
+               if(ff!=st.end())
+               {
+                   st.erase(ff);
+               }
+
+               dis[neighbour.first]=top.first+neighbour.second;
+               st.insert(make_pair(dis[neighbour.first],neighbour.first));
+           }
+       }
+   }
+
+    for(int i=1;i<=n;i++)
+    {
+        if(dis[i]<MX) cout<<dis[i]<<" ";
+        else cout<<-1<<" ";
+    }
+    cout<<endl;
+    return 0;
+}
+
+
+
+
+

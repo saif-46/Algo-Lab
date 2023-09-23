@@ -1,0 +1,57 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+
+void merge(int ar[], int br[], int n, int m){
+
+   int mrg[n+m+5];
+
+   int i=0,j=0,k=0;
+  while(i<n&&j<m)
+    {
+      if(ar[i]<br[j])
+      {
+           mrg[k]=ar[i];
+           i++;
+      }
+
+      else
+      {
+          mrg[k]=br[j];
+          j++;
+      }
+
+      k++;
+   }
+
+   while(i<n)
+   {
+       mrg[k]=ar[i];
+       i++;
+       k++;
+   }
+   while(j<m)
+   {
+       mrg[k]=br[j];
+       j++;
+       k++;
+   }
+
+   for(int i=0; i<n+m; i++)
+      cout<<mrg[i]<<" ";
+   cout<<endl;
+}
+int main(){
+
+   int n; cin>>n;
+   int ar[n];
+   for(int i=0; i<n; i++) cin>>ar[i];
+
+   int m; cin>>m;
+   int br[m];
+   for(int i=0; i<m; i++) cin>>br[i];
+
+   merge(ar,br,n,m);
+
+   return 0;
+}

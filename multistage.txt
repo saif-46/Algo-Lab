@@ -1,0 +1,51 @@
+
+#include<bits/stdc++.h>
+using    namespace std;
+
+map<pair<int,int>,int>weight;
+int dp[100005][3];
+bool vis[100005];
+vector<int>graph[100005];
+
+void dfs(int nd){
+
+     vis[nd]=true;
+     for(auto i:graph[nd]){
+          if(!vis[i])dfs(i);
+     }
+
+     for(auto i:graph[nd]){
+          if(dp[i][1]+weight[make_pair(i,nd)]<dp[nd][1]){
+               dp[nd][1]=dp[i][1]+weight[make_pair(i,nd)];
+               dp[nd][2]=i;
+          }
+     }
+}
+
+
+int main(){
+   int n,e;
+   cin>>n>>e;
+   int u,v,w;
+   while(e--){
+     cin>>u>>v>>w;
+     weight[make_pair(u,v)]=w;
+     weight[make_pair(v,u)]=w;
+     graph[u].push_back(v);
+   }
+   for(int i=1;i<=n;i++){
+     dp[i][0]=i;
+     dp[i][1]=1e9+7;
+   }
+   dp[n][1]=0;
+   dfs(1);
+
+cout<<"minimun cost: "<<dp[1][1]<<endl;
+
+cout<<"Shortest Path: ";
+int x=1;
+while(dp[x][2]!=x){
+     cout<<x<<" ";
+     x=dp[x][2];
+}
+}
